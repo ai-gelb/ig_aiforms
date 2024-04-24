@@ -1,11 +1,18 @@
 import { fetchOpenAICompletion } from "@igelb/ig-aiforms/FetchAi.js";
+import Icons from "@typo3/backend/icons.js";
 
 function AiFormsText() {
   const clickButtons = document.querySelectorAll(".igjs-form-text-rte-ai");
+  const iconOn = "actions-infinity";
+  const iconOff = "spinner-circle";
 
   clickButtons.forEach((button) => {
     button.addEventListener("click", (event) => {
       button.disabled = true;
+      Icons.getIcon( iconOff , Icons.sizes.small).then((icon) => {
+        button.replaceChild(document.createRange().createContextualFragment(icon), button.querySelector(".t3js-icon"));
+      });
+
       const { aiToRead, whatDoYouWant, aiToPaste } = button.dataset;
       const arrayAiToRead = aiToRead.split(",");
 
@@ -62,6 +69,9 @@ function AiFormsText() {
           }
 
           button.disabled = false;
+          Icons.getIcon(iconOn, Icons.sizes.small).then((icon) => {
+            button.replaceChild(document.createRange().createContextualFragment(icon), button.querySelector(".t3js-icon"));
+          });
         })
         .catch((error) => {
           console.error("Error:", error);
