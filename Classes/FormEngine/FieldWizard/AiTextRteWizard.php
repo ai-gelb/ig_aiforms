@@ -7,6 +7,7 @@ use TYPO3\CMS\Core\Page\JavaScriptModuleInstruction;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
@@ -22,6 +23,9 @@ class AiTextRteWizard extends AbstractNode
 {
     public function render(): array
     {
+        $languageService = GeneralUtility::makeInstance(LanguageServiceFactory::class)->createFromUserPreferences($GLOBALS['BE_USER']);
+        $buttonTitle = $languageService->sL('LLL:EXT:ig_aiforms/Resources/Private/Language/locallang.xlf:fieldWizard.aiText.buttonTitle');
+
         $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
         $icon = $iconFactory->getIcon('actions-infinity', ICON::SIZE_SMALL);
 
@@ -47,7 +51,7 @@ class AiTextRteWizard extends AbstractNode
 
         $resultData['javaScriptModules'][] = JavaScriptModuleInstruction::create('@igelb/ig-aiforms/AiFormsTextRteWizard.js');
 
-        $resultData['html'] = '<div class="form-control"><button class="btn btn-default igjs-form-text-rte-ai" data-what-do-you-want="' . $fieldWizardConfig['aiWhatDoYouWant'] . '" data-ai-to-read="' . $fieldWizardConfig['aiToRead'] . '"  data-ai-to-paste="' . $this->data['elementBaseName'] . '" type="button">Generieren mit AI ' . $icon . '</button></div>';
+        $resultData['html'] = '<div class="form-control"><button class="btn btn-default igjs-form-text-rte-ai" data-what-do-you-want="' . $fieldWizardConfig['aiWhatDoYouWant'] . '" data-ai-to-read="' . $fieldWizardConfig['aiToRead'] . '"  data-ai-to-paste="' . $this->data['elementBaseName'] . '" type="button">' . $buttonTitle . ' ' . $icon . '</button></div>';
 
         return $resultData;
     }
