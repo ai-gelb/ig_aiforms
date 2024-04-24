@@ -1,0 +1,26 @@
+{
+	"name": "igelb/ig-aiforms",
+	"type": "typo3-cms-extension",
+	"description": "TYPO3 Extension for AI",
+	"version": "1",
+	"license": "GPL-2.0-or-later",
+	"authors": [
+		{
+			"name": "i-gelb GmbH",
+			"role": "Product Manager"
+		}
+	],
+	"require": {
+		"typo3/cms-core": "^12.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"Igelb\\IgAiforms\\": "Classes"
+		}
+	},
+	"extra": {
+		"typo3/cms": {
+			"extension-key": "ig_aiforms"
+		}
+	}
+}
