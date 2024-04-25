@@ -13,7 +13,7 @@ function AiFormsText() {
         button.replaceChild(document.createRange().createContextualFragment(icon), button.querySelector(".t3js-icon"));
       });
 
-      const { aiToRead, whatDoYouWant, aiToPaste } = button.dataset;
+      const { aiToRead, whatDoYouWant, aiToPaste, language } = button.dataset;
       const arrayAiToRead = aiToRead.split(",");
 
       let aiContent = "";
@@ -25,7 +25,7 @@ function AiFormsText() {
       const data = {
         model: "gpt-4-turbo",
         messages: [
-          { role: "system", content: whatDoYouWant },
+          { role: "system", content: whatDoYouWant + '. Always respond in: ' + language},
           { role: "user", content: aiContent },
         ],
         temperature: 0.5,

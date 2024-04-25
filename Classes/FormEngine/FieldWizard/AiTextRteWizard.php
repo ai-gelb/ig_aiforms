@@ -9,6 +9,7 @@ use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
+use Igelb\IgAiforms\Service\LanguageService;
 
 /**
  * 'fieldWizard' => [
@@ -47,11 +48,13 @@ class AiTextRteWizard extends AbstractNode
         //DebuggerUtility::var_dump($this->data);
         //DebuggerUtility::var_dump($fieldWizardConfig['aiToRead']);
 
+        $language = LanguageService::getLanguage($this->data);
+
         $resultData = $this->initializeResultArray();
 
         $resultData['javaScriptModules'][] = JavaScriptModuleInstruction::create('@igelb/ig-aiforms/AiFormsTextRteWizard.js');
 
-        $resultData['html'] = '<div class="form-control"><button class="btn btn-default igjs-form-text-rte-ai" data-what-do-you-want="' . $fieldWizardConfig['aiWhatDoYouWant'] . '" data-ai-to-read="' . $fieldWizardConfig['aiToRead'] . '"  data-ai-to-paste="' . $this->data['elementBaseName'] . '" type="button">' . $buttonTitle . ' ' . $icon . '</button></div>';
+        $resultData['html'] = '<div class="form-control"><button class="btn btn-default igjs-form-text-rte-ai" data-language="' . $language['locale'] . '" data-what-do-you-want="' . $fieldWizardConfig['aiWhatDoYouWant'] . '" data-ai-to-read="' . $fieldWizardConfig['aiToRead'] . '"  data-ai-to-paste="' . $this->data['elementBaseName'] . '" type="button">' . $buttonTitle . ' ' . $icon . '</button></div>';
 
         return $resultData;
     }

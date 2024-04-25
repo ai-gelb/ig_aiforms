@@ -12,7 +12,7 @@ function AiFormsImage() {
       Icons.getIcon( iconOff , Icons.sizes.small).then((icon) => {
         button.replaceChild(document.createRange().createContextualFragment(icon), button.querySelector(".t3js-icon"));
       });
-      const { fileUrl, whatDoYouWant, aiToPaste, filePublic } = button.dataset;
+      const { fileUrl, whatDoYouWant, aiToPaste, filePublic,language  } = button.dataset;
 
       let fileUrlToSend = "";
       if (filePublic == "0") {
@@ -35,7 +35,7 @@ function AiFormsImage() {
             content: [
               {
                 type: "text",
-                text: whatDoYouWant,
+                text: whatDoYouWant + '. Always respond in: ' + language,
               },
               {
                 type: "image_url",
