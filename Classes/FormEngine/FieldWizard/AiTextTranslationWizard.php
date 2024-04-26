@@ -15,30 +15,28 @@ class AiTextTranslationWizard extends AbstractNode
     public function render(): array
     {
         $languageService = GeneralUtility::makeInstance(LanguageServiceFactory::class)->createFromUserPreferences($GLOBALS['BE_USER']);
-        $buttonTitle = $languageService->sL('LLL:EXT:ig_aiforms/Resources/Private/Language/locallang.xlf:fieldWizard.aiText.buttonTitle');
+        $buttonTitle = $languageService->sL('LLL:EXT:ig_aiforms/Resources/Private/Language/locallang.xlf:fieldWizard.aiTextTranslation.buttonTitle');
 
         $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
-        $icon = $iconFactory->getIcon('actions-infinity', ICON::SIZE_SMALL);
 
-        $fieldWizardConfig = $this->data['processedTca']['columns'][$this->data['fieldName']]['config']['fieldWizard']['aiText'];
+        $allLanguages = LanguageService::getAllLanguages();
 
-        $fieldWizardConfig['aiToRead'] = explode(',', $fieldWizardConfig['aiToRead']);
-        $fieldWizardConfig['aiToRead'] = array_map('trim', $fieldWizardConfig['aiToRead']);
-        $fieldWizardConfig['aiToRead'] = array_filter($fieldWizardConfig['aiToRead']);
-
-        foreach ($fieldWizardConfig['aiToRead'] as $keyAiToRead => $valueAiToRead) {
-            $fieldWizardConfig['aiToRead'][$keyAiToRead] = 'data' . str_replace($this->data['fieldName'], $valueAiToRead, $this->data['elementBaseName']);
-        }
-
-        $fieldWizardConfig['aiToRead'] = implode(',', $fieldWizardConfig['aiToRead']);
+        $fieldWizardConfig = $this->data['processedTca']['columns'][$this->data['fieldName']]['config']['fieldWizard']['aiTextTranslation'];
 
         $resultData = $this->initializeResultArray();
 
-        $language = LanguageService::getLanguage($this->data);
+        if ($this->data['defaultLanguageRow'] != null) {
+            $fieldWizardConfig['aiToRead'] = 'data' . str_replace($this->data['fieldName'], $this->data['fieldName'] . "LLL", $this->data['elementBaseName']);
+            $resultData['html'] .= ' <input type="hidden" name="' . $fieldWizardConfig['aiToRead'] . '" value="' . $this->data['defaultLanguageRow'][$this->data['fieldName']] . '" />';
+            if ($allLanguages) {
+                foreach ($allLanguages as $key => $value) {
+                    $icon = $iconFactory->getIcon($value['flag'], ICON::SIZE_SMALL);
+                    $resultData['html'] .= '<button class="btn btn-default igjs-form-text-translation-ai" data-icon="' . $value['flag'] . '" data-language="' . $value['locale'] . '" data-what-do-you-want="' . $fieldWizardConfig['IDoThisForYou'] . '" data-ai-to-read="' . $fieldWizardConfig['aiToRead'] . '"  data-ai-to-paste="data' . $this->data['elementBaseName'] . '" type="button">' . $buttonTitle . ' ' . $icon . '</button>';
+                }
+            }
+        }
 
-        $resultData['javaScriptModules'][] = JavaScriptModuleInstruction::create('@igelb/ig-aiforms/AiFormsTextWizard.js');
-
-        $resultData['html'] = '<div class="form-control"><button class="btn btn-default igjs-form-text-ai" data-language="' . $language['locale'] . '" data-what-do-you-want="' . $fieldWizardConfig['aiWhatDoYouWant'] . '" data-ai-to-read="' . $fieldWizardConfig['aiToRead'] . '"  data-ai-to-paste="data' . $this->data['elementBaseName'] . '" type="button">' . $buttonTitle . ' ' . $icon . '</button></div>';
+        $resultData['javaScriptModules'][] = JavaScriptModuleInstruction::create('@igelb/ig-aiforms/AiFormsTextTranslationWizard.js');
 
         return $resultData;
     }

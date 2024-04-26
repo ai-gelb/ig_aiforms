@@ -2,8 +2,10 @@ import { fetchOpenAICompletion } from "@igelb/ig-aiforms/FetchAi.js";
 import Icons from "@typo3/backend/icons.js";
 
 function AiFormsText() {
-  const clickButtons = document.querySelectorAll(".igjs-form-text-rte-ai");
-  const iconOn = "actions-infinity";
+  const clickButtons = document.querySelectorAll(
+    ".igjs-form-text-translation-ai"
+  );
+  let iconOn = "actions-infinity";
   const iconOff = "spinner-circle";
 
   clickButtons.forEach((button) => {
@@ -16,8 +18,12 @@ function AiFormsText() {
         );
       });
 
-      const { aiToRead, whatDoYouWant, aiToPaste, language } = button.dataset;
-      console.log(aiToRead, aiToPaste);
+      const { aiToRead, whatDoYouWant, aiToPaste, language, icon } =
+        button.dataset;
+
+        console.log(aiToPaste);
+      iconOn = icon;
+
       const arrayAiToRead = aiToRead.split(",");
 
       let aiContent = "";
@@ -25,7 +31,10 @@ function AiFormsText() {
       arrayAiToRead.forEach((element) => {
         aiContent += ` ${document.querySelector(`[name='${element}']`).value}`;
       });
-
+      const elementToPaste = document.querySelector(
+        `[data-formengine-input-name='${aiToPaste}']`
+      );
+      console.log(elementToPaste);
       const data = {
         model: "gpt-4-turbo",
         messages: [
@@ -41,40 +50,9 @@ function AiFormsText() {
 
       fetchOpenAICompletion(data)
         .then((data) => {
-          const editorElements = Array.from(
-            document.querySelectorAll(".ck-editor__editable")
-          );
-
-          const findEditorBySourceId = (sourceId) => {
-            let targetEditor = null;
-
-            editorElements.forEach((element) => {
-              const instance = element.ckeditorInstance;
-              if (
-                instance &&
-                instance.sourceElement &&
-                instance.sourceElement.id === sourceId
-              ) {
-                targetEditor = instance;
-              }
-            });
-
-            return targetEditor;
-          };
-
-          const sourceId =
-            "data" + aiToPaste.replace(/\[/g, "_").replace(/\]/g, "_");
-
-          const myEditorInstance = findEditorBySourceId(sourceId);
-
-          if (myEditorInstance) {
-            console.log("Editor gefunden:", myEditorInstance);
-
-            myEditorInstance.setData(data.choices[0].message.content);
-          } else {
-            console.error("Kein Editor mit dieser ID gefunden");
-          }
-
+          console.log(data);
+          elementToPaste.value = data.choices[0].message.content;
+          elementToPaste.dispatchEvent(new Event("change", { bubbles: true }));
           button.disabled = false;
           Icons.getIcon(iconOn, Icons.sizes.small).then((icon) => {
             button.replaceChild(

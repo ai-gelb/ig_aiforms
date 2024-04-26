@@ -83,4 +83,10 @@ function AiFormsText() {
   });
 }
 
-AiFormsText();
+// Initialize the script when document is ready
+if (document.readyState !== "loading") {
+  AiFormsText();
+} else {
+  document.addEventListener("DOMContentLoaded", AiFormsText);
+}
+

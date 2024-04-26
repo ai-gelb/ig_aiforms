@@ -32,15 +32,10 @@ class AiTextTranslationRteWizard extends AbstractNode
             if ($allLanguages) {
                 foreach ($allLanguages as $key => $value) {
                     $icon = $iconFactory->getIcon($value['flag'], ICON::SIZE_SMALL);
-                    $resultData['html'] .= '<button class="btn btn-default igjs-form-text-translation-rte-ai" data-icon="' . $value['flag'] . '" data-language="' . $value['locale'] . '" data-what-do-you-want="' . $fieldWizardConfig['aiWhatDoYouWant'] . '" data-ai-to-read="' . $fieldWizardConfig['aiToRead'] . '"  data-ai-to-paste="' . $this->data['elementBaseName'] . '" type="button">' . $buttonTitle . ' ' . $icon . '</button>';
+                    $resultData['html'] .= '<button class="btn btn-default igjs-form-text-translation-rte-ai" data-icon="' . $value['flag'] . '" data-language="' . $value['locale'] . '" data-what-do-you-want="' . $fieldWizardConfig['IDoThisForYou'] . '" data-ai-to-read="' . $fieldWizardConfig['aiToRead'] . '"  data-ai-to-paste="' . $this->data['elementBaseName'] . '" type="button">' . $buttonTitle . ' ' . $icon . '</button>';
                 }
             }
         }
-
-
-
-
-
 
         $resultData['javaScriptModules'][] = JavaScriptModuleInstruction::create('@igelb/ig-aiforms/AiFormsTextTranslationRteWizard.js');
 
