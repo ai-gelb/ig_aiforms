@@ -16,6 +16,5 @@ $GLOBALS['TCA']['tx_news_domain_model_news']['columns']['bodytext']['config']['f
 
 $GLOBALS['TCA']['tx_news_domain_model_news']['columns']['bodytext']['config']['fieldWizard']['aiTextTranslation'] = [
     'renderType' => 'aiTextTranslationRteWizard',
-    //'aiToRead' => 'bodytext',
     'aiWhatDoYouWant' => 'I translate this Text.'
 ];
