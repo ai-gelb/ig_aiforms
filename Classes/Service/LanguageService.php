@@ -45,4 +45,32 @@ class LanguageService
             }
         }
     }
+
+    /**
+     *
+     * @return array
+     */
+    public static function getAllLanguages(): array
+    {
+        // SiteFinder Dienst instanziieren
+        $siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
+
+        // Alle Sites holen
+        $sites = $siteFinder->getAllSites();
+
+        $languages = [];
+        // Durch alle Sites iterieren
+        foreach ($sites as $site) {
+            // Sprachkonfigurationen der Site holen
+            $languagesSite = $site->getLanguages();
+
+            // Durch alle Sprachen iterieren
+            foreach ($languagesSite as $language) {
+                // Prüfe, ob die Sprache Deutsch ist und hole die entsprechende Locale
+                $languages[] = $language->toArray();
+            }
+        }
+
+        return $languages;
+    }
 }

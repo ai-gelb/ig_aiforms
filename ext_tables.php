@@ -13,17 +13,30 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][] = [
     'class' => \Igelb\IgAiforms\FormEngine\FieldWizard\AiTextWizard::class,
 ];
 
-// AiTextWizard
+// AiTextRteWizard
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][] = [
     'nodeName' => 'aiTextRteWizard',
     'priority' => 40,
     'class' => \Igelb\IgAiforms\FormEngine\FieldWizard\AiTextRteWizard::class,
 ];
 
-
 // AiImageMetadataWizard
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][] = [
     'nodeName' => 'aiImageMetadataWizard',
     'priority' => 40,
     'class' => \Igelb\IgAiforms\FormEngine\FieldWizard\AiImageMetadataWizard::class,
+];
+
+// AiTextTranslationWizard
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][] = [
+    'nodeName' => 'aiTextTranslationWizard',
+    'priority' => 40,
+    'class' => \Igelb\IgAiforms\FormEngine\FieldWizard\AiTextTranslationWizard::class,
+];
+
+// AiTextTranslationRteWizard
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][] = [
+    'nodeName' => 'aiTextTranslationRteWizard',
+    'priority' => 40,
+    'class' => \Igelb\IgAiforms\FormEngine\FieldWizard\AiTextTranslationRteWizard::class,
 ];

@@ -2,8 +2,8 @@ import { fetchOpenAICompletion } from "@igelb/ig-aiforms/FetchAi.js";
 import Icons from "@typo3/backend/icons.js";
 
 function AiFormsText() {
-  const clickButtons = document.querySelectorAll(".igjs-form-text-rte-ai");
-  const iconOn = "actions-infinity";
+  const clickButtons = document.querySelectorAll(".igjs-form-text-translation-rte-ai");
+  let iconOn = "actions-infinity";
   const iconOff = "spinner-circle";
 
   clickButtons.forEach((button) => {
@@ -13,8 +13,10 @@ function AiFormsText() {
         button.replaceChild(document.createRange().createContextualFragment(icon), button.querySelector(".t3js-icon"));
       });
 
-      const { aiToRead, whatDoYouWant, aiToPaste, language } = button.dataset;
-      console.log(aiToRead, aiToPaste);
+      const { aiToRead, whatDoYouWant, aiToPaste, language, icon } = button.dataset;
+
+      iconOn = icon;
+
       const arrayAiToRead = aiToRead.split(",");
 
       let aiContent = "";
