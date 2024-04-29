@@ -9,7 +9,6 @@ use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use Igelb\IgAiforms\Service\LanguageService;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 class AiTextTranslationRteWizard extends AbstractNode
 {
@@ -27,8 +26,11 @@ class AiTextTranslationRteWizard extends AbstractNode
         $resultData = $this->initializeResultArray();
 
         if ($this->data['defaultLanguageRow'] != null) {
-            $fieldWizardConfig['aiToRead'] = 'data' . str_replace($this->data['fieldName'], $this->data['fieldName'] . "LLL", $this->data['elementBaseName']);
-            $resultData['html'] .= ' <input type="hidden" name="' . $fieldWizardConfig['aiToRead'] . '" value="' . $this->data['defaultLanguageRow'][$this->data['fieldName']] . '" />';
+            $fieldWizardConfig['aiToRead'] = 'data' . str_replace($this->data['fieldName'], $this->data['fieldName'] . 'LLL', $this->data['elementBaseName']);
+
+            $value = str_replace("'", '"', $this->data['defaultLanguageRow'][$this->data['fieldName']]);
+
+            $resultData['html'] .= ' <input type="hidden" name="' . $fieldWizardConfig['aiToRead'] . '" value=\'' . $value . '\' />';
             if ($allLanguages) {
                 foreach ($allLanguages as $key => $value) {
                     $icon = $iconFactory->getIcon($value['flag'], ICON::SIZE_SMALL);

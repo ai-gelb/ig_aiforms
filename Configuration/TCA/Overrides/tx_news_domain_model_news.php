@@ -18,24 +18,31 @@ $GLOBALS['TCA']['tx_news_domain_model_news']['columns']['keywords']['config']['f
     'IDoThisForYou' => 'I give you 5 keywords from  this News title and bodytext. Is separated by comma.'
 ];
 
+$GLOBALS['TCA']['tx_news_domain_model_news']['columns']['title']['config']['fieldWizard']['aiText'] = [
+    'renderType' => 'aiTextWizard',
+    'aiToRead' => 'bodytext',
+    'IDoThisForYou' => 'I give you a Title from  this News.'
+];
+
 $GLOBALS['TCA']['tx_news_domain_model_news']['columns']['description']['config']['fieldWizard']['aiText'] = [
     'renderType' => 'aiTextWizard',
     'aiToRead' => 'title,bodytext',
     'IDoThisForYou' => 'I give you a description from  this News. Maximal 160 letters. this description is for SEO.'
 ];
 
-
-
-
 $GLOBALS['TCA']['tx_news_domain_model_news']['columns']['bodytext']['config']['fieldWizard']['aiText'] = [
     'renderType' => 'aiTextRteWizard',
-    'aiToRead' => 'title',
-    'IDoThisForYou' => 'I give you a bodytext from  this News title. Maximal 1000 letters. I must use <h2> and <h3> and <p> and <ul> and <ol> and <li> and <strong>',
+    'aiToRead' => 'notes',
+    'IDoThisForYou' => 'I write a text about the topic you are writing about. If you add URLs, I will use those URLs as sources. If you add Text, I will use this Text as sources too. The text should be around 1000. I must use <p>. I can use <h2> and <h3> and <ul> and <ol> and <li> and <strong>'
 ];
+
+// $GLOBALS['TCA']['tx_news_domain_model_news']['columns']['bodytext']['config']['fieldWizard']['aiText'] = [
+//     'renderType' => 'aiTextRteWizard',
+//     'aiToRead' => 'title',
+//     'IDoThisForYou' => 'I give you a bodytext from  this News title. Maximal 1000 letters. I must use <h2> and <h3> and <p> and <ul> and <ol> and <li> and <strong>',
+// ];
 
 $GLOBALS['TCA']['tx_news_domain_model_news']['columns']['bodytext']['config']['fieldWizard']['aiTextTranslation'] = [
     'renderType' => 'aiTextTranslationRteWizard',
     'IDoThisForYou' => 'I translate this Text.'
 ];
-
-
