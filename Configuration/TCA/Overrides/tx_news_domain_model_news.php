@@ -5,7 +5,7 @@ defined('TYPO3') || exit();
 $GLOBALS['TCA']['tx_news_domain_model_news']['columns']['teaser']['config']['fieldWizard']['aiText'] = [
     'renderType' => 'aiTextWizard',
     'aiToRead' => 'title,bodytext',
-    'IDoThisForYou' => 'I give you a Teaser from  this News. Maximal 150 letters.'
+    'IDoThisForYou' => 'I give you a Teaser from  this News. Maximal 250 letters.'
 ];
 
 $GLOBALS['TCA']['tx_news_domain_model_news']['columns']['teaser']['config']['fieldWizard']['aiTextTranslation'] = [
@@ -21,7 +21,7 @@ $GLOBALS['TCA']['tx_news_domain_model_news']['columns']['keywords']['config']['f
 $GLOBALS['TCA']['tx_news_domain_model_news']['columns']['title']['config']['fieldWizard']['aiText'] = [
     'renderType' => 'aiTextWizard',
     'aiToRead' => 'bodytext',
-    'IDoThisForYou' => 'I give you a Title from  this News.'
+    'IDoThisForYou' => 'I give you a Title from  this News. Maximal 150 letters.'
 ];
 
 $GLOBALS['TCA']['tx_news_domain_model_news']['columns']['description']['config']['fieldWizard']['aiText'] = [
