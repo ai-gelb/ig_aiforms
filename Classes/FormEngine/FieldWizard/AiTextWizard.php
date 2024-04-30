@@ -26,10 +26,13 @@ class AiTextWizard extends AbstractNode
         $fieldWizardConfig['aiToRead'] = array_map('trim', $fieldWizardConfig['aiToRead']);
         $fieldWizardConfig['aiToRead'] = array_filter($fieldWizardConfig['aiToRead']);
 
+        $aiToReadColumns = [];
         foreach ($fieldWizardConfig['aiToRead'] as $keyAiToRead => $valueAiToRead) {
             $fieldWizardConfig['aiToRead'][$keyAiToRead] = 'data' . str_replace($this->data['fieldName'], $valueAiToRead, $this->data['elementBaseName']);
+            $aiToReadColumns[] = $this->data['processedTca']['columns'][$valueAiToRead]['label'];
         }
 
+        $aiToReadColumnsText = $languageService->sL('LLL:EXT:ig_aiforms/Resources/Private/Language/locallang.xlf:fieldWizard.aiText.buttonInfo') . implode(', ', $aiToReadColumns);
         $fieldWizardConfig['aiToRead'] = implode(',', $fieldWizardConfig['aiToRead']);
 
         $resultData = $this->initializeResultArray();
@@ -38,7 +41,7 @@ class AiTextWizard extends AbstractNode
 
         $resultData['javaScriptModules'][] = JavaScriptModuleInstruction::create('@igelb/ig-aiforms/AiFormsTextWizard.js');
 
-        $resultData['html'] = '<button class="btn btn-default igjs-form-text-ai" data-language="' . $language['locale'] . '" data-what-do-you-want="' . $fieldWizardConfig['IDoThisForYou'] . '" data-ai-to-read="' . $fieldWizardConfig['aiToRead'] . '"  data-ai-to-paste="data' . $this->data['elementBaseName'] . '" type="button">' . $buttonTitle . ' ' . $icon . '</button>';
+        $resultData['html'] = '<button title="' . $aiToReadColumnsText . '" class="btn btn-default igjs-form-text-ai" data-language="' . $language['locale'] . '" data-what-do-you-want="' . $fieldWizardConfig['IDoThisForYou'] . '" data-ai-to-read="' . $fieldWizardConfig['aiToRead'] . '"  data-ai-to-paste="data' . $this->data['elementBaseName'] . '" type="button">' . $buttonTitle . ' ' . $icon . '</button>';
 
         return $resultData;
     }

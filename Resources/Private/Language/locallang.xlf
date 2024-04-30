@@ -9,6 +9,9 @@
 			<trans-unit id="fieldWizard.aiTextTranslation.buttonTitle" resname="fieldWizard.aiTextTranslation.buttonTitle">
 				<source>Translated with AI</source>
 			</trans-unit>
+			<trans-unit id="fieldWizard.aiText.buttonInfo" resname="fieldWizard.aiText.buttonInfo">
+				<source>Generate from: </source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

@@ -8,9 +8,7 @@ use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use Igelb\IgAiforms\Service\LanguageService;
-
 
 class AiTextRteWizard extends AbstractNode
 {
@@ -28,9 +26,13 @@ class AiTextRteWizard extends AbstractNode
         $fieldWizardConfig['aiToRead'] = array_map('trim', $fieldWizardConfig['aiToRead']);
         $fieldWizardConfig['aiToRead'] = array_filter($fieldWizardConfig['aiToRead']);
 
+        $aiToReadColumns = [];
         foreach ($fieldWizardConfig['aiToRead'] as $keyAiToRead => $valueAiToRead) {
             $fieldWizardConfig['aiToRead'][$keyAiToRead] = 'data' . str_replace($this->data['fieldName'], $valueAiToRead, $this->data['elementBaseName']);
+            $aiToReadColumns[] = $this->data['processedTca']['columns'][$valueAiToRead]['label'];
         }
+
+        $aiToReadColumnsText = $languageService->sL('LLL:EXT:ig_aiforms/Resources/Private/Language/locallang.xlf:fieldWizard.aiText.buttonInfo') . implode(', ', $aiToReadColumns);
 
         $fieldWizardConfig['aiToRead'] = implode(',', $fieldWizardConfig['aiToRead']);
 
@@ -40,7 +42,7 @@ class AiTextRteWizard extends AbstractNode
 
         $resultData['javaScriptModules'][] = JavaScriptModuleInstruction::create('@igelb/ig-aiforms/AiFormsTextRteWizard.js');
 
-        $resultData['html'] = '<button class="btn btn-default igjs-form-text-rte-ai" data-language="' . $language['locale'] . '" data-what-do-you-want="' . $fieldWizardConfig['IDoThisForYou'] . '" data-ai-to-read="' . $fieldWizardConfig['aiToRead'] . '"  data-ai-to-paste="' . $this->data['elementBaseName'] . '" type="button">' . $buttonTitle . ' ' . $icon . '</button>';
+        $resultData['html'] = '<button  title="' . $aiToReadColumnsText . '"  class="btn btn-default igjs-form-text-rte-ai" data-language="' . $language['locale'] . '" data-what-do-you-want="' . $fieldWizardConfig['IDoThisForYou'] . '" data-ai-to-read="' . $fieldWizardConfig['aiToRead'] . '"  data-ai-to-paste="' . $this->data['elementBaseName'] . '" type="button">' . $buttonTitle . ' ' . $icon . '</button>';
 
         return $resultData;
     }
