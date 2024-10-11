@@ -20,7 +20,7 @@ class FileService
     {
         $qb = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('sys_file_metadata');
 
-        $filePaths = $qb->select('file.identifier', 'file.uid AS file_uid', 'file.storage', 'metadata.uid AS metadata_uid', 'metadata.title', 'metadata.description', 'metadata.alternative')
+        $filePaths = $qb->select('file.identifier', 'file.extension as file_extension', 'file.uid AS file_uid', 'file.storage', 'metadata.uid AS metadata_uid', 'metadata.title', 'metadata.description', 'metadata.alternative')
             ->from('sys_file_metadata', 'metadata')
             ->innerJoin(
                 'metadata',
