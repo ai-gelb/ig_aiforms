@@ -29,7 +29,7 @@ class FileService
                 $qb->expr()->eq('metadata.file', $qb->quoteIdentifier('file.uid'))
             )
             ->where(
-                $qb->expr()->in('file.extension', ['"jpg"', '"jpeg"', '"png"', '"gif"', '"webp"']),
+                $qb->expr()->in('file.extension', ['"jpg"', '"jpeg"', '"png"', '"gif"', '"webp"' ,'"pdf"']),
                 $qb->expr()->eq('metadata.uid', $id),
             )
             ->executeQuery()

@@ -32,42 +32,48 @@ function AiFormsImage() {
       // Fetch the file
       fetchFile(file).then((dataFile) => {
         if (dataFile.status === "ok") {
-          if (dataFile.extection === "jpeg") {
-            let FileBase64 = `data:image/jpeg;base64,${dataFile.base64}`;
+          let FileBase64 = `data:image/jpeg;base64,${dataFile.base64}`;
+          let FileText = dataFile.text;
+
+          let data = {};
+
+          console.log(dataFile);
+
+          if (dataFile.extension === "pdf") {
+            data = {
+              model: "gpt-4-turbo",
+              messages: [
+                { role: "system", content: whatDoYouWant + '. Always respond in: ' + language },
+                { role: "user", content: FileText },
+              ],
+              temperature: 0.5,
+              top_p: 1,
+            };
           }
-          if (dataFile.extection === "png") {
-            let FileBase64 = `data:image/png;base64,${dataFile.base64}`;
-          }
-          if (dataFile.extection === "gif") {
-            let FileBase64 = `data:image/gif;base64,${dataFile.base64}`;
-          }
-          if (dataFile.extection === "jpg") {
-            let FileBase64 = `data:image/jpg;base64,${dataFile.base64}`;
-          }
-          if (dataFile.extection === "webp") {
-            let FileBase64 = `data:image/webp;base64,${dataFile.base64}`;
+          else{
+            data = {
+              model: "gpt-4-turbo",
+              messages: [
+                {
+                  role: "user",
+                  content: [
+                    {
+                      type: "text",
+                      text: `${whatDoYouWant}. Always respond in: ${language}`,
+                    },
+                    {
+                      type: "image_url",
+                      image_url: { url: FileBase64 },
+                    },
+                  ],
+                },
+              ],
+              max_tokens: 1500,
+            };
           }
 
           // Prepare data for OpenAI API
-          const data = {
-            model: "gpt-4-turbo",
-            messages: [
-              {
-                role: "user",
-                content: [
-                  {
-                    type: "text",
-                    text: `${whatDoYouWant}. Always respond in: ${language}`,
-                  },
-                  {
-                    type: "image_url",
-                    image_url: { url: FileBase64 },
-                  },
-                ],
-              },
-            ],
-            max_tokens: 1500,
-          };
+
 
           // Fetch completion from OpenAI
           fetchOpenAICompletion(data).then((data) => {

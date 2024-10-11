@@ -5,6 +5,7 @@ namespace Igelb\IgAiforms\Controller;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 class AiController extends ActionController
 {
@@ -14,6 +15,7 @@ class AiController extends ActionController
      */
     public function giveMeATextAction(ServerRequestInterface $request): ResponseInterface
     {
+
         $apiKey = getenv('OPENAI_API_KEY');
         $url = 'https://api.openai.com/v1/chat/completions';
 
