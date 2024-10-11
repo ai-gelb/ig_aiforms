@@ -8,20 +8,16 @@ use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
-
 class FileService
 {
-
     /**
      * Get file without metadata
      *
      * @param int $id
      * @return array
      */
-    public static function getFilesWithoutMetadata($id): array
+    public static function getFile($id): array
     {
-
         $qb = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('sys_file_metadata');
 
         $filePaths = $qb->select('file.identifier', 'file.uid AS file_uid', 'file.storage', 'metadata.uid AS metadata_uid', 'metadata.title', 'metadata.description', 'metadata.alternative')
@@ -54,7 +50,6 @@ class FileService
      */
     public static function getFileStorage($id): string
     {
-
         $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
         $storage = $resourceFactory->getStorageObject($id);
         $storageConfiguration = $storage->getConfiguration();
@@ -66,6 +61,4 @@ class FileService
 
         return $storageString;
     }
-
-
 }

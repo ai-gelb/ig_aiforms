@@ -1,4 +1,5 @@
 import { fetchOpenAICompletion } from "@igelb/ig-aiforms/FetchAi.js";
+import { fetchFile } from "@igelb/ig-aiforms/FetchFile.js";
 import Icons from "@typo3/backend/icons.js";
 
 function AiFormsImage() {
@@ -6,59 +7,74 @@ function AiFormsImage() {
   const iconOn = "actions-infinity";
   const iconOff = "spinner-circle";
 
-  clickButtons.forEach(button => {
-    button.addEventListener("click", event => {
+  clickButtons.forEach((button) => {
+    button.addEventListener("click", (event) => {
       button.disabled = true;
 
       // Replace button icon with loading icon
-      Icons.getIcon(iconOff, Icons.sizes.small).then(icon => {
+      Icons.getIcon(iconOff, Icons.sizes.small).then((icon) => {
         const iconPlaceholder = button.querySelector(".t3js-icon");
-        const iconFragment = document.createRange().createContextualFragment(icon);
+        const iconFragment = document
+          .createRange()
+          .createContextualFragment(icon);
         button.replaceChild(iconFragment, iconPlaceholder);
       });
 
       // Destructure data attributes from the button
-      const { fileUrl, whatDoYouWant, aiToPaste, filePublic, language } = button.dataset;
-
-      // Determine the URL to send based on public accessibility
-      let fileUrlToSend = filePublic === "0" ? `data:image/jpeg;base64,${fileUrl}` : fileUrl;
+      const { file, whatDoYouWant, aiToPaste, language } = button.dataset;
 
       // Select the element to paste response into
-      const elementToPaste = document.querySelector(`[data-formengine-input-name='${aiToPaste}']`);
+      const elementToPaste = document.querySelector(
+        `[data-formengine-input-name='${aiToPaste}']`
+      );
 
-      // Prepare data for OpenAI API
-      const data = {
-        model: "gpt-4-turbo",
-        messages: [{
-          role: "user",
-          content: [{
-            type: "text",
-            text: `${whatDoYouWant}. Always respond in: ${language}`,
-          }, {
-            type: "image_url",
-            image_url: { url: fileUrlToSend },
-          }],
-        }],
-        max_tokens: 1500,
-      };
+      // Fetch the file
+      fetchFile(file).then((dataBase64) => {
+        let FileBase64 = `data:image/jpeg;base64,${dataBase64.base64}`;
 
-      // Fetch completion from OpenAI
-      fetchOpenAICompletion(data)
-        .then(data => {
-          elementToPaste.value = data.choices[0].message.content;
-          elementToPaste.dispatchEvent(new Event("change", { bubbles: true }));
-          button.disabled = false;
+        // Prepare data for OpenAI API
+        const data = {
+          model: "gpt-4-turbo",
+          messages: [
+            {
+              role: "user",
+              content: [
+                {
+                  type: "text",
+                  text: `${whatDoYouWant}. Always respond in: ${language}`,
+                },
+                {
+                  type: "image_url",
+                  image_url: { url: FileBase64 },
+                },
+              ],
+            },
+          ],
+          max_tokens: 1500,
+        };
 
-          // Replace loading icon with original icon
-          Icons.getIcon(iconOn, Icons.sizes.small).then(icon => {
-            const iconPlaceholder = button.querySelector(".t3js-icon");
-            const iconFragment = document.createRange().createContextualFragment(icon);
-            button.replaceChild(iconFragment, iconPlaceholder);
+        // Fetch completion from OpenAI
+        fetchOpenAICompletion(data)
+          .then((data) => {
+            elementToPaste.value = data.choices[0].message.content;
+            elementToPaste.dispatchEvent(
+              new Event("change", { bubbles: true })
+            );
+            button.disabled = false;
+
+            // Replace loading icon with original icon
+            Icons.getIcon(iconOn, Icons.sizes.small).then((icon) => {
+              const iconPlaceholder = button.querySelector(".t3js-icon");
+              const iconFragment = document
+                .createRange()
+                .createContextualFragment(icon);
+              button.replaceChild(iconFragment, iconPlaceholder);
+            });
+          })
+          .catch((error) => {
+            console.error("Error:", error);
           });
-        })
-        .catch(error => {
-          console.error("Error:", error);
-        });
+      });
     });
   });
 }
