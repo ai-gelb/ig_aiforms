@@ -14,22 +14,28 @@ class AiTextTranslationRteWizard extends AbstractNode
 {
     public function render(): array
     {
+        // Get the language service and the button Text
         $languageService = GeneralUtility::makeInstance(LanguageServiceFactory::class)->createFromUserPreferences($GLOBALS['BE_USER']);
         $buttonTitle = $languageService->sL('LLL:EXT:ig_aiforms/Resources/Private/Language/locallang.xlf:fieldWizard.aiTextTranslation.buttonTitle');
 
+        // Get the icon for the button
         $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
 
+        // Get all languages
         $allLanguages = LanguageService::getAllLanguages();
 
+        // Get the field wizard configuration in TCA
         $fieldWizardConfig = $this->data['processedTca']['columns'][$this->data['fieldName']]['config']['fieldWizard']['aiTextTranslation'];
 
         $resultData = $this->initializeResultArray();
 
+        // Get the language and the default language row
         if ($this->data['defaultLanguageRow'] != null) {
             $fieldWizardConfig['aiToRead'] = 'data' . str_replace($this->data['fieldName'], $this->data['fieldName'] . 'LLL', $this->data['elementBaseName']);
 
             $value = str_replace("'", '"', $this->data['defaultLanguageRow'][$this->data['fieldName']]);
 
+            // Prepare the HTML and the hidden input field for the default language row
             $html = [];
             $html[] = '<input';
             $html[] = ' type="hidden"';
@@ -37,6 +43,7 @@ class AiTextTranslationRteWizard extends AbstractNode
             $html[] = ' value=\'' . $value . '\'';
             $html[] = ' />';
 
+            // Prepare the HTML for the buttons for the other languages
             if ($allLanguages) {
                 foreach ($allLanguages as $key => $value) {
                     $icon = $iconFactory->getIcon($value['flag'], ICON::SIZE_SMALL);
@@ -56,8 +63,10 @@ class AiTextTranslationRteWizard extends AbstractNode
             $resultData['html'] = implode(' ', $html);
         }
 
+        // Add the JavaScript module
         $resultData['javaScriptModules'][] = JavaScriptModuleInstruction::create('@igelb/ig-aiforms/AiFormsTextTranslationRteWizard.js');
 
+        // Return the result data
         return $resultData;
     }
 }

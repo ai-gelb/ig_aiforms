@@ -14,22 +14,30 @@ class AiImageMetadataWizard extends AbstractNode
 {
     public function render(): array
     {
+        // Get the language service and the button Text
         $languageService = GeneralUtility::makeInstance(LanguageServiceFactory::class)->createFromUserPreferences($GLOBALS['BE_USER']);
         $buttonTitle = $languageService->sL('LLL:EXT:ig_aiforms/Resources/Private/Language/locallang.xlf:fieldWizard.aiText.buttonTitle');
 
+        // Get the icon for the button
         $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
         $icon = $iconFactory->getIcon('actions-infinity', ICON::SIZE_SMALL);
 
+        // Prepare the result data
         $resultData = $this->initializeResultArray();
 
+        // Get the field wizard configuration in TCA
         $fieldWizardConfig = $this->data['processedTca']['columns'][$this->data['fieldName']]['config']['fieldWizard']['aiImageMetadata'];
 
+        // Get the file uid
         $file = $this->data['databaseRow']['uid'];
 
+        // Get the language
         $language = LanguageService::getLanguage($this->data);
 
+        // Add the JavaScript module
         $resultData['javaScriptModules'][] = JavaScriptModuleInstruction::create('@igelb/ig-aiforms/AiFormsImageWizard.js');
 
+        // Prepare the HTML
         $html = [];
         $html[] = '<button';
         $html[] = ' title="' . $buttonTitle . '"';
@@ -45,6 +53,7 @@ class AiImageMetadataWizard extends AbstractNode
 
         $resultData['html'] = implode(' ', $html);
 
+        // Return the result data
         return $resultData;
     }
 }
