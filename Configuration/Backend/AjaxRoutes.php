@@ -1,5 +1,6 @@
 <?php
 
+// Register AJAX routes
 return [
     'igelb_ig_aiforms_ai' => [
         'path' => '/aiforms/giveMeAText',

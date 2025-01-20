@@ -1,13 +1,12 @@
 <?php
 
+// Register JavaScript modules
+
 return [
-    // required import configurations of other extensions,
-    // in case a module imports from another package
     'dependencies' => ['backend'],
     'tags' => [
         'backend.form',
     ],
-    // import-mapping of JavaScript files
     'imports' => [
         '@igelb/ig-aiforms/AiFormsTextWizard.js' => 'EXT:ig_aiforms/Resources/Public/JavaScript/AiFormsTextWizard.js',
         '@igelb/ig-aiforms/AiFormsTextRteWizard.js' => 'EXT:ig_aiforms/Resources/Public/JavaScript/AiFormsTextRteWizard.js',
