@@ -41,7 +41,7 @@ class AiImageMetadataWizard extends AbstractNode
         $html = [];
         $html[] = '<button';
         $html[] = ' title="' . $buttonTitle . '"';
-        $html[] = ' class="btn btn-default igjs-form-ai"';
+        $html[] = ' class="btn btn-default igjs-form-image-ai"';
         $html[] = ' data-language="' . $language['locale'] . '"';
         $html[] = ' data-what-do-you-want="' . $fieldWizardConfig['iDoThisForYou'] . '"';
         $html[] = ' data-file="' . $file . '"';

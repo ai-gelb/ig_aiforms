@@ -4,7 +4,7 @@ import Notification from "@typo3/backend/notification.js";
 import Icons from "@typo3/backend/icons.js";
 
 function AiFormsImage() {
-  const clickButtons = document.querySelectorAll(".igjs-form-ai");
+  const clickButtons = document.querySelectorAll(".igjs-form-image-ai");
   const iconOn = "actions-infinity";
   const iconOff = "spinner-circle";
 
