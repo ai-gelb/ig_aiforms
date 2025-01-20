@@ -60,7 +60,7 @@ class AiTextRteWizard extends AbstractNode
         $html[] = ' title="' . $aiToReadColumnsText . '"';
         $html[] = ' class="btn btn-default igjs-form-text-rte-ai"';
         $html[] = ' data-language="' . $language['locale'] . '"';
-        $html[] = ' data-what-do-you-want="' . $fieldWizardConfig['IDoThisForYou'] . '"';
+        $html[] = ' data-what-do-you-want="' . $fieldWizardConfig['iDoThisForYou'] . '"';
         $html[] = ' data-ai-to-read="' . $fieldWizardConfig['aiToRead'] . '"';
         $html[] = ' data-ai-to-paste="' . $this->data['elementBaseName'] . '"';
         $html[] = ' type="button"';

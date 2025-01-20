@@ -40,7 +40,7 @@ class AiMediasearchWizard extends AbstractNode
         $html[] = '    title="' . $aiToReadColumnsText . '"';
         $html[] = '    class="btn btn-default igjs-form-text-ai"';
         $html[] = '    data-language="' . $language['locale'] . '"';
-        $html[] = '    data-what-do-you-want="' . $fieldWizardConfig['IDoThisForYou'] . '"';
+        $html[] = '    data-what-do-you-want="' . $fieldWizardConfig['iDoThisForYou'] . '"';
         $html[] = '    data-ai-to-paste="data' . $this->data['elementBaseName'] . '"';
         $html[] = '    type="button">';
         $html[] = $buttonTitle . ' ' . $icon;

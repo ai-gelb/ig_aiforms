@@ -51,7 +51,7 @@ class AiTextTranslationWizard extends AbstractNode
                     $html[] = ' class="btn btn-default igjs-form-text-translation-ai"';
                     $html[] = ' data-icon="' . $value['flag'] . '"';
                     $html[] = ' data-language="' . $value['locale'] . '"';
-                    $html[] = ' data-what-do-you-want="' . $fieldWizardConfig['IDoThisForYou'] . '"';
+                    $html[] = ' data-what-do-you-want="' . $fieldWizardConfig['iDoThisForYou'] . '"';
                     $html[] = ' data-ai-to-read="' . $fieldWizardConfig['aiToRead'] . '"';
                     $html[] = ' data-ai-to-paste="data' . $this->data['elementBaseName'] . '"';
                     $html[] = ' type="button">';

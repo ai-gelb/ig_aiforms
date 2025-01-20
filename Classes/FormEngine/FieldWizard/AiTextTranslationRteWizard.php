@@ -51,7 +51,7 @@ class AiTextTranslationRteWizard extends AbstractNode
                     $html[] = ' class="btn btn-default igjs-form-text-translation-rte-ai"';
                     $html[] = ' data-icon="' . $value['flag'] . '"';
                     $html[] = ' data-language="' . $value['locale'] . '"';
-                    $html[] = ' data-what-do-you-want="' . $fieldWizardConfig['IDoThisForYou'] . '"';
+                    $html[] = ' data-what-do-you-want="' . $fieldWizardConfig['iDoThisForYou'] . '"';
                     $html[] = ' data-ai-to-read="' . $fieldWizardConfig['aiToRead'] . '"';
                     $html[] = ' data-ai-to-paste="' . $this->data['elementBaseName'] . '"';
                     $html[] = ' type="button">';
