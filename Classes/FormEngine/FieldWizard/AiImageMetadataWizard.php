@@ -30,7 +30,20 @@ class AiImageMetadataWizard extends AbstractNode
 
         $resultData['javaScriptModules'][] = JavaScriptModuleInstruction::create('@igelb/ig-aiforms/AiFormsImageWizard.js');
 
-        $resultData['html'] = '<div class="form-control"><button class="btn btn-default igjs-form-ai" data-language="' . $language['locale'] . '" data-what-do-you-want="' . $fieldWizardConfig['IDoThisForYou'] . '" data-file="' . $file . '"  data-ai-to-paste="data' . $this->data['elementBaseName'] . '" type="button">' . $buttonTitle . ' ' . $icon . '</button></div>';
+        $html = [];
+        $html[] = '<button';
+        $html[] = ' title="' . $buttonTitle . '"';
+        $html[] = ' class="btn btn-default igjs-form-ai"';
+        $html[] = ' data-language="' . $language['locale'] . '"';
+        $html[] = ' data-what-do-you-want="' . $fieldWizardConfig['IDoThisForYou'] . '"';
+        $html[] = ' data-file="' . $file . '"';
+        $html[] = ' data-ai-to-paste="data' . $this->data['elementBaseName'] . '"';
+        $html[] = ' type="button"';
+        $html[] = '>';
+        $html[] = $buttonTitle . ' ' . $icon;
+        $html[] = '</button>';
+
+        $resultData['html'] = implode(' ', $html);
 
         return $resultData;
     }

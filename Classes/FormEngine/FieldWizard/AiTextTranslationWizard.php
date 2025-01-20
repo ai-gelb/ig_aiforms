@@ -28,13 +28,31 @@ class AiTextTranslationWizard extends AbstractNode
         if ($this->data['defaultLanguageRow'] != null) {
             $fieldWizardConfig['aiToRead'] = 'data' . str_replace($this->data['fieldName'], $this->data['fieldName'] . 'LLL', $this->data['elementBaseName']);
             $value = str_replace("'", '"', $this->data['defaultLanguageRow'][$this->data['fieldName']]);
-            $resultData['html'] .= ' <input type="hidden" name="' . $fieldWizardConfig['aiToRead'] . '" value=\'' . $value . '\'  />';
+
+            $html = [];
+            $html[] = '<input';
+            $html[] = ' type="hidden"';
+            $html[] = ' name="' . $fieldWizardConfig['aiToRead'] . '"';
+            $html[] = ' value=\'' . $value . '\'';
+            $html[] = ' />';
+
             if ($allLanguages) {
                 foreach ($allLanguages as $key => $value) {
                     $icon = $iconFactory->getIcon($value['flag'], ICON::SIZE_SMALL);
-                    $resultData['html'] .= '<button class="btn btn-default igjs-form-text-translation-ai" data-icon="' . $value['flag'] . '" data-language="' . $value['locale'] . '" data-what-do-you-want="' . $fieldWizardConfig['IDoThisForYou'] . '" data-ai-to-read="' . $fieldWizardConfig['aiToRead'] . '"  data-ai-to-paste="data' . $this->data['elementBaseName'] . '" type="button">' . $buttonTitle . ' ' . $icon . '</button>';
+                    $html[] = '<button';
+                    $html[] = ' class="btn btn-default igjs-form-text-translation-ai"';
+                    $html[] = ' data-icon="' . $value['flag'] . '"';
+                    $html[] = ' data-language="' . $value['locale'] . '"';
+                    $html[] = ' data-what-do-you-want="' . $fieldWizardConfig['IDoThisForYou'] . '"';
+                    $html[] = ' data-ai-to-read="' . $fieldWizardConfig['aiToRead'] . '"';
+                    $html[] = ' data-ai-to-paste="data' . $this->data['elementBaseName'] . '"';
+                    $html[] = ' type="button">';
+                    $html[] = $buttonTitle . ' ' . $icon;
+                    $html[] = '</button>';
                 }
             }
+
+            $resultData['html'] = implode(' ', $html);
         }
 
         $resultData['javaScriptModules'][] = JavaScriptModuleInstruction::create('@igelb/ig-aiforms/AiFormsTextTranslationWizard.js');

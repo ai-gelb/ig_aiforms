@@ -41,7 +41,20 @@ class AiTextWizard extends AbstractNode
 
         $resultData['javaScriptModules'][] = JavaScriptModuleInstruction::create('@igelb/ig-aiforms/AiFormsTextWizard.js');
 
-        $resultData['html'] = '<button title="' . $aiToReadColumnsText . '" class="btn btn-default igjs-form-text-ai" data-language="' . $language['locale'] . '" data-what-do-you-want="' . $fieldWizardConfig['IDoThisForYou'] . '" data-ai-to-read="' . $fieldWizardConfig['aiToRead'] . '"  data-ai-to-paste="data' . $this->data['elementBaseName'] . '" type="button">' . $buttonTitle . ' ' . $icon . '</button>';
+        $html = [];
+        $html[] = '<button';
+        $html[] = ' title="' . $aiToReadColumnsText . '"';
+        $html[] = ' class="btn btn-default igjs-form-text-ai"';
+        $html[] = ' data-language="' . $language['locale'] . '"';
+        $html[] = ' data-what-do-you-want="' . $fieldWizardConfig['IDoThisForYou'] . '"';
+        $html[] = ' data-ai-to-read="' . $fieldWizardConfig['aiToRead'] . '"';
+        $html[] = ' data-ai-to-paste="data' . $this->data['elementBaseName'] . '"';
+        $html[] = ' type="button"';
+        $html[] = '>';
+        $html[] = $buttonTitle . ' ' . $icon;
+        $html[] = '</button>';
+
+        $resultData['html'] = implode(' ', $html);
 
         return $resultData;
     }

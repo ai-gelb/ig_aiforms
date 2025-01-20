@@ -42,7 +42,19 @@ class AiTextRteWizard extends AbstractNode
 
         $resultData['javaScriptModules'][] = JavaScriptModuleInstruction::create('@igelb/ig-aiforms/AiFormsTextRteWizard.js');
 
-        $resultData['html'] = '<button  title="' . $aiToReadColumnsText . '"  class="btn btn-default igjs-form-text-rte-ai" data-language="' . $language['locale'] . '" data-what-do-you-want="' . $fieldWizardConfig['IDoThisForYou'] . '" data-ai-to-read="' . $fieldWizardConfig['aiToRead'] . '"  data-ai-to-paste="' . $this->data['elementBaseName'] . '" type="button">' . $buttonTitle . ' ' . $icon . '</button>';
+        $html = [];
+        $html[] = '<button';
+        $html[] = ' title="' . $aiToReadColumnsText . '"';
+        $html[] = ' class="btn btn-default igjs-form-text-rte-ai"';
+        $html[] = ' data-language="' . $language['locale'] . '"';
+        $html[] = ' data-what-do-you-want="' . $fieldWizardConfig['IDoThisForYou'] . '"';
+        $html[] = ' data-ai-to-read="' . $fieldWizardConfig['aiToRead'] . '"';
+        $html[] = ' data-ai-to-paste="' . $this->data['elementBaseName'] . '"';
+        $html[] = ' type="button"';
+        $html[] = '>';
+        $html[] = $buttonTitle . ' ' . $icon;
+        $html[] = '</button>';
+        $resultData['html'] = implode(' ', $html);
 
         return $resultData;
     }
