@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="EXT:ig_aiforms/Resources/Private/Language/locallang_db" date="2020-09-21T11:10:40Z" product-name="ig_article">
+		<header/>
+		<body>
+			<trans-unit id="tx_igarticle_domain_model_article.aiforms_search_text" resname="tx_igarticle_domain_model_article.aiforms_search_text">
+				<source>AI: Sources, URLs</source>
+			</trans-unit>
+			<trans-unit id="tx_igarticle_domain_model_article.aiforms_search_text_description" resname="tx_igarticle_domain_model_article.aiforms_search_text_description">
+				<source>Please provide a text or URLs to specific pages on the internet</source>
+			</trans-unit>
+			<trans-unit id="tx_igarticle_domain_model_article.aiforms_search_pdf" resname="tx_igarticle_domain_model_article.aiforms_search_pdf">
+				<source>AI: PDF</source>
+			</trans-unit>
+			<trans-unit id="tx_igarticle_domain_model_article.aiforms_search_pdf_description" resname="tx_igarticle_domain_model_article.aiforms_search_pdf_description">
+				<source>If they use a PDF, it must be readable and not too long.</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

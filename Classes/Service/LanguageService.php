@@ -10,7 +10,6 @@ use TYPO3\CMS\Core\Site\SiteFinder;
 class LanguageService
 {
     /**
-     * Get language
      *
      * @param array $data
      *
@@ -48,7 +47,6 @@ class LanguageService
     }
 
     /**
-     * Get all languages
      *
      * @return array
      */

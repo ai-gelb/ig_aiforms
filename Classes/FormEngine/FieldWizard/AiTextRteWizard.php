@@ -14,62 +14,36 @@ class AiTextRteWizard extends AbstractNode
 {
     public function render(): array
     {
-        // Get the language service and the button Text
         $languageService = GeneralUtility::makeInstance(LanguageServiceFactory::class)->createFromUserPreferences($GLOBALS['BE_USER']);
         $buttonTitle = $languageService->sL('LLL:EXT:ig_aiforms/Resources/Private/Language/locallang.xlf:fieldWizard.aiText.buttonTitle');
 
-        // Get the icon for the button
         $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
         $icon = $iconFactory->getIcon('actions-infinity', ICON::SIZE_SMALL);
 
-        // Get the field wizard configuration in TCA and prepare the aiToRead columns
         $fieldWizardConfig = $this->data['processedTca']['columns'][$this->data['fieldName']]['config']['fieldWizard']['aiText'];
 
         $fieldWizardConfig['aiToRead'] = explode(',', $fieldWizardConfig['aiToRead']);
         $fieldWizardConfig['aiToRead'] = array_map('trim', $fieldWizardConfig['aiToRead']);
         $fieldWizardConfig['aiToRead'] = array_filter($fieldWizardConfig['aiToRead']);
 
-        // Get the text for the button title
         $aiToReadColumns = [];
         foreach ($fieldWizardConfig['aiToRead'] as $keyAiToRead => $valueAiToRead) {
-            // get all fields to read
             $fieldWizardConfig['aiToRead'][$keyAiToRead] = 'data' . str_replace($this->data['fieldName'], $valueAiToRead, $this->data['elementBaseName']);
-
-            // get all labels for the fields to read
             $aiToReadColumns[] = $this->data['processedTca']['columns'][$valueAiToRead]['label'];
         }
 
-        // Implode the aiToRead columns labels to show in the button
         $aiToReadColumnsText = $languageService->sL('LLL:EXT:ig_aiforms/Resources/Private/Language/locallang.xlf:fieldWizard.aiText.buttonInfo') . implode(', ', $aiToReadColumns);
 
-        // Implode the aiToRead columns to use in the button
         $fieldWizardConfig['aiToRead'] = implode(',', $fieldWizardConfig['aiToRead']);
 
-        // Prepare the result data
         $language = LanguageService::getLanguage($this->data);
 
-        // Add the JavaScript module
         $resultData = $this->initializeResultArray();
 
-        // Add the JavaScript module
         $resultData['javaScriptModules'][] = JavaScriptModuleInstruction::create('@igelb/ig-aiforms/AiFormsTextRteWizard.js');
 
-        // Prepare the HTML
-        $html = [];
-        $html[] = '<button';
-        $html[] = ' title="' . $aiToReadColumnsText . '"';
-        $html[] = ' class="btn btn-default igjs-form-text-rte-ai"';
-        $html[] = ' data-language="' . $language['locale'] . '"';
-        $html[] = ' data-what-do-you-want="' . $fieldWizardConfig['iDoThisForYou'] . '"';
-        $html[] = ' data-ai-to-read="' . $fieldWizardConfig['aiToRead'] . '"';
-        $html[] = ' data-ai-to-paste="' . $this->data['elementBaseName'] . '"';
-        $html[] = ' type="button"';
-        $html[] = '>';
-        $html[] = $buttonTitle . ' ' . $icon;
-        $html[] = '</button>';
-        $resultData['html'] = implode(' ', $html);
+        $resultData['html'] = '<button  title="' . $aiToReadColumnsText . '"  class="btn btn-default igjs-form-text-rte-ai" data-language="' . $language['locale'] . '" data-what-do-you-want="' . $fieldWizardConfig['IDoThisForYou'] . '" data-ai-to-read="' . $fieldWizardConfig['aiToRead'] . '"  data-ai-to-paste="' . $this->data['elementBaseName'] . '" type="button">' . $buttonTitle . ' ' . $icon . '</button>';
 
-        // Return the result data
         return $resultData;
     }
 }

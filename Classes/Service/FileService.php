@@ -61,4 +61,54 @@ class FileService
 
         return $storageString;
     }
+
+    /**
+     * Get file extension
+     *
+     * @param int $id
+     * @return string
+     */
+    public static function getFileExtension($id): string
+    {
+        $file = self::getFile($id);
+
+        return $file['file_extension'];
+    }
+
+    /**
+     * Get file file from filereference
+     *
+     * @param int $id
+     * @return array
+     */
+    public static function getFileFromFilereference($id): array
+    {
+        $qb = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('sys_file_reference');
+
+        $filePaths = $qb->select('uid_local')
+            ->from('sys_file_reference', 'reference')
+            ->where(
+                $qb->expr()->eq('reference.uid', $id),
+            )
+            ->executeQuery()
+            ->fetchAssociative();
+
+        // get file
+
+        $qb = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('sys_file_metadata');
+
+        $filePaths2 = $qb->select('uid')
+            ->from('sys_file_metadata')
+            ->where(
+                $qb->expr()->eq('file', $filePaths['uid_local']),
+            )
+            ->executeQuery()
+            ->fetchAssociative();
+
+
+
+            return $filePaths2;
+
+    }
+
 }

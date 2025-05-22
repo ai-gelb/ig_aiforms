@@ -6,11 +6,17 @@
 			<trans-unit id="fieldWizard.aiText.buttonTitle" resname="fieldWizard.aiText.buttonTitle">
 				<source>Generate with AI</source>
 			</trans-unit>
+			<trans-unit id="fieldWizard.aiText.buttonTitleSources" resname="fieldWizard.aiText.buttonTitleSources">
+				<source>Generate from sources with AI</source>
+			</trans-unit>
 			<trans-unit id="fieldWizard.aiTextTranslation.buttonTitle" resname="fieldWizard.aiTextTranslation.buttonTitle">
 				<source>Translated with AI</source>
 			</trans-unit>
 			<trans-unit id="fieldWizard.aiText.buttonInfo" resname="fieldWizard.aiText.buttonInfo">
 				<source>Generate from: </source>
+			</trans-unit>
+			<trans-unit id="fieldWizard.aiText.buttonPageInfo" resname="fieldWizard.aiText.buttonPageInfo">
+				<source>Generate from: Page</source>
 			</trans-unit>
 		</body>
 	</file>

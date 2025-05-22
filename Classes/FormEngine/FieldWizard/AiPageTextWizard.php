@@ -9,44 +9,39 @@ use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use Igelb\IgAiforms\Service\LanguageService;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
-class AiMediasearchWizard extends AbstractNode
+class AiPageTextWizard extends AbstractNode
 {
     public function render(): array
     {
-        // Get the language service and the button title
+
+        $pageUid = $this->data['databaseRow']['uid'];
+        $hiddenField = $this->data['databaseRow']['hidden'];
+
         $languageService = GeneralUtility::makeInstance(LanguageServiceFactory::class)->createFromUserPreferences($GLOBALS['BE_USER']);
         $buttonTitle = $languageService->sL('LLL:EXT:ig_aiforms/Resources/Private/Language/locallang.xlf:fieldWizard.aiText.buttonTitle');
 
-        // Get the icon for the button
         $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
         $icon = $iconFactory->getIcon('actions-infinity', ICON::SIZE_SMALL);
 
-        // Get the field wizard configuration in TCA
         $fieldWizardConfig = $this->data['processedTca']['columns'][$this->data['fieldName']]['config']['fieldWizard']['aiText'];
 
-        // Get the text for the button
-        $aiToReadColumnsText = $languageService->sL('LLL:EXT:ig_aiforms/Resources/Private/Language/locallang.xlf:fieldWizard.aiText.buttonInfo');
+
+        $aiToReadColumnsText = $languageService->sL('LLL:EXT:ig_aiforms/Resources/Private/Language/locallang.xlf:fieldWizard.aiText.buttonPageInfo');
 
         $resultData = $this->initializeResultArray();
 
         $language = LanguageService::getLanguage($this->data);
 
-        $resultData['javaScriptModules'][] = JavaScriptModuleInstruction::create('@igelb/ig-aiforms/AiFormsTextWizard.js');
+        $resultData['javaScriptModules'][] = JavaScriptModuleInstruction::create('@igelb/ig-aiforms/AiFormsPageTextWizard.js');
 
-        $html = [];
-
-        $html[] = '<button';
-        $html[] = '    title="' . $aiToReadColumnsText . '"';
-        $html[] = '    class="btn btn-default igjs-form-text-ai"';
-        $html[] = '    data-language="' . $language['locale'] . '"';
-        $html[] = '    data-what-do-you-want="' . $fieldWizardConfig['iDoThisForYou'] . '"';
-        $html[] = '    data-ai-to-paste="data' . $this->data['elementBaseName'] . '"';
-        $html[] = '    type="button">';
-        $html[] = $buttonTitle . ' ' . $icon;
-        $html[] = '</button>';
-
-        $resultData['html'] = implode(' ', $html);
+        if ($hiddenField == 1) {
+            $disabled = 'disabled';
+        } else {
+            $disabled = '';
+        }
+        $resultData['html'] = '<button '. $disabled .' title="' . $aiToReadColumnsText . '" class="btn btn-default igjs-form-page-text-ai" data-language="' . $language['locale'] . '" data-what-do-you-want="' . $fieldWizardConfig['IDoThisForYou'] . '" data-page-uid="' . $pageUid . '"  data-ai-to-paste="data' . $this->data['elementBaseName'] . '" type="button">' . $buttonTitle . ' ' . $icon . '</button>';
 
         return $resultData;
     }

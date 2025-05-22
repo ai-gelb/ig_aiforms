@@ -1,5 +1,5 @@
-function fetchFile(requestData) {
-  return fetch(TYPO3.settings.ajaxUrls.igelb_ig_aiforms_file, {
+function fetchPage(requestData) {
+  return fetch(TYPO3.settings.ajaxUrls.igelb_ig_aiforms_page, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -8,4 +8,4 @@ function fetchFile(requestData) {
   }).then((response) => response.json());
 }
 
-export { fetchFile };
+export { fetchPage };

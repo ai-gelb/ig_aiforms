@@ -4,7 +4,7 @@ import Notification from "@typo3/backend/notification.js";
 import Icons from "@typo3/backend/icons.js";
 
 function AiFormsImage() {
-  const clickButtons = document.querySelectorAll(".igjs-form-image-ai");
+  const clickButtons = document.querySelectorAll(".igjs-form-ai");
   const iconOn = "actions-infinity";
   const iconOff = "spinner-circle";
 
@@ -43,14 +43,16 @@ function AiFormsImage() {
             data = {
               model: "gpt-4-turbo",
               messages: [
-                { role: "system", content: whatDoYouWant + '. Always respond in: ' + language },
+                {
+                  role: "system",
+                  content: whatDoYouWant + ". Always respond in: " + language,
+                },
                 { role: "user", content: FileText },
               ],
               temperature: 0.5,
               top_p: 1,
             };
-          }
-          else{
+          } else {
             data = {
               model: "gpt-4-turbo",
               messages: [
@@ -72,26 +74,34 @@ function AiFormsImage() {
             };
           }
 
-          // Prepare data for OpenAI API
-
-
           // Fetch completion from OpenAI
-          fetchOpenAICompletion(data).then((data) => {
-            elementToPaste.value = data.choices[0].message.content;
-            elementToPaste.dispatchEvent(
-              new Event("change", { bubbles: true })
-            );
-            button.disabled = false;
+          fetchOpenAICompletion(data)
+            .then((data) => {
+              elementToPaste.value = data.choices[0].message.content;
+              elementToPaste.dispatchEvent(
+                new Event("change", { bubbles: true })
+              );
+              button.disabled = false;
 
-            // Replace loading icon with original icon
-            Icons.getIcon(iconOn, Icons.sizes.small).then((icon) => {
-              const iconPlaceholder = button.querySelector(".t3js-icon");
-              const iconFragment = document
-                .createRange()
-                .createContextualFragment(icon);
-              button.replaceChild(iconFragment, iconPlaceholder);
+              // Replace loading icon with original icon
+              Icons.getIcon(iconOn, Icons.sizes.small).then((icon) => {
+                const iconPlaceholder = button.querySelector(".t3js-icon");
+                const iconFragment = document
+                  .createRange()
+                  .createContextualFragment(icon);
+                button.replaceChild(iconFragment, iconPlaceholder);
+              });
+            })
+            .catch((error) => {
+              button.disabled = false;
+              Icons.getIcon(iconOn, Icons.sizes.small).then((icon) => {
+                button.replaceChild(
+                  document.createRange().createContextualFragment(icon),
+                  button.querySelector(".t3js-icon")
+                );
+              });
+              Notification.error("AI error", "", 10, []);
             });
-          });
         }
         if (dataFile.status === "error") {
           button.disabled = false;

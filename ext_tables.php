@@ -27,16 +27,17 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][] = [
     'class' => \Igelb\IgAiforms\FormEngine\FieldWizard\AiImageMetadataWizard::class,
 ];
 
-// AiTextTranslationWizard
+// AiPageTextWizard
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][] = [
-    'nodeName' => 'aiTextTranslationWizard',
+    'nodeName' => 'aiPageTextWizard',
     'priority' => 40,
-    'class' => \Igelb\IgAiforms\FormEngine\FieldWizard\AiTextTranslationWizard::class,
+    'class' => \Igelb\IgAiforms\FormEngine\FieldWizard\AiPageTextWizard::class,
 ];
 
-// AiTextTranslationRteWizard
+// AiGenerateWizard
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][] = [
-    'nodeName' => 'aiTextTranslationRteWizard',
+    'nodeName' => 'aiGenerateRteWizard',
     'priority' => 40,
-    'class' => \Igelb\IgAiforms\FormEngine\FieldWizard\AiTextTranslationRteWizard::class,
+    'class' => \Igelb\IgAiforms\FormEngine\FieldWizard\AiGenerateRteWizard::class,
 ];
+

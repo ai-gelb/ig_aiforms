@@ -84,7 +84,14 @@ function AiFormsText() {
           });
         })
         .catch((error) => {
-          console.error("Error:", error);
+          button.disabled = false;
+          Icons.getIcon(iconOn, Icons.sizes.small).then((icon) => {
+            button.replaceChild(
+              document.createRange().createContextualFragment(icon),
+              button.querySelector(".t3js-icon")
+            );
+          });
+          Notification.error("AI error", "", 10, []);
         });
     });
   });
