@@ -7,9 +7,9 @@ Diese TYPO3-Extension integriert KI-Funktionalitäten in das TYPO3-Backend und e
 - KI-gestützte Textgenerierung für reguläre Felder
 - KI-gestützte Textgenerierung für RTE-Felder (CKEditor)
 - KI-gestützte Bildanalyse für Metadaten (Alt-Text, Beschreibungen)
-- KI-gestützte Übersetzungen für reguläre Felder
-- KI-gestützte Übersetzungen für RTE-Felder
 - PDF-Analyse und Textextraktion mit KI
+- SEO-Optimierung für Seiten (Meta-Beschreibungen, Titel, Keywords)
+- Social Media Optimierung (Open Graph, Twitter Cards)
 
 ## Anforderungen
 
@@ -24,6 +24,23 @@ Diese TYPO3-Extension integriert KI-Funktionalitäten in das TYPO3-Backend und e
 
 ```bash
 composer require igelb/ig-aiforms
+```
+
+### Repository-Konfiguration
+
+Fügen Sie die folgenden Repositories zu Ihrer composer.json hinzu:
+
+```json
+"repositories": [
+    {
+        "type": "composer",
+        "url": "https://composer.typo3.org/"
+    },
+    {
+        "type": "vcs",
+        "url": "https://github.com/ai-gelb/ig_aiforms"
+    }
+],
 ```
 
 Nach der Installation muss die Extension im TYPO3-Backend aktiviert werden.
@@ -66,41 +83,27 @@ $GLOBALS['TCA']['your_table']['columns']['your_rte_field']['config']['fieldWizar
 ];
 ```
 
-#### Übersetzungswizard für ein reguläres Feld
-
-```php
-$GLOBALS['TCA']['your_table']['columns']['your_field']['config']['fieldWizard']['aiTextTranslation'] = [
-    'renderType' => 'aiTextTranslationWizard',
-    'iDoThisForYou' => 'Ich übersetze diesen Text.'
-];
-```
-
 #### Bildanalyse für Metadaten
 
 ```php
 $GLOBALS['TCA']['sys_file_metadata']['columns']['alternative']['config']['fieldWizard']['aiImageMetadata'] = [
     'renderType' => 'aiImageMetadataWizard',
+    'fileExtension' => ['jpg', 'jpeg', 'png', 'gif'],
     'iDoThisForYou' => 'Ich erstelle einen Alt-Text für dieses Bild. Maximal 100 Zeichen.'
 ];
 ```
 
-## Sicherheitshinweise
-
-- Achten Sie darauf, dass Ihr OpenAI API-Schlüssel sicher gespeichert und nicht öffentlich zugänglich ist.
-- Prüfen Sie die generierten Inhalte vor der Veröffentlichung auf Korrektheit und Angemessenheit.
-- Beachten Sie die Datenschutzbestimmungen und informieren Sie Ihre Nutzer über den Einsatz von KI-Technologien.
-
-## Anpassung der Prompts
-
-Die Anweisungen für die KI können über die `iDoThisForYou`-Parameter in der TCA-Konfiguration angepasst werden. Hier können Sie detaillierte Anweisungen für die Generierung oder Übersetzung von Inhalten festlegen.
-
-### Beispiele für verschiedene Anwendungsfälle:
+### Erweiterte Beispiele für verschiedene Anwendungsfälle
 
 #### Präzise Alt-Text-Generierung für Bilder
 ```php
 $GLOBALS['TCA']['sys_file_metadata']['columns']['alternative']['config']['fieldWizard']['aiImageMetadata'] = [
     'renderType' => 'aiImageMetadataWizard',
-    'iDoThisForYou' => 'Ich erstelle einen kurzen, präzisen Alt-Text für dieses Bild. Der Text soll maximal 30 Wörter umfassen und folgt dem Muster "Objekt-Aktion-Kontext". Falls Text im Bild vorhanden ist, wird dieser vollständig transkribiert. Ich beginne nicht mit "Das Bild zeigt" oder ähnlichen Formulierungen.'
+    'fileExtension' => ['jpg', 'jpeg', 'png', 'gif'],
+    'IDoThisForYou' => 'I provide a functional, objective description of the provided image in no more than around 30 words so that someone who could not see it would be able to imagine it. If possible, follow an "object-action-context" framework: The object is the main focus. The action describes what's happening, usually what the object is doing. The context describes the surrounding environment.
+    If there is text found in the image, it is very important that you transcribe all of it, even if it extends the word count beyond 30 words.
+    If there is no text found in the image, then there is no need to mention it.
+    I should not begin the description with any variation of "The image".',
 ];
 ```
 
@@ -108,44 +111,84 @@ $GLOBALS['TCA']['sys_file_metadata']['columns']['alternative']['config']['fieldW
 ```php
 $GLOBALS['TCA']['sys_file_metadata']['columns']['description']['config']['fieldWizard']['aiImageMetadata'] = [
     'renderType' => 'aiImageMetadataWizard',
-    'iDoThisForYou' => 'Ich erstelle eine detaillierte Beschreibung dieses Bildes. Dabei berücksichtige ich Bildkomposition, Farben, Stimmung und dargestellte Objekte. Die Beschreibung soll etwa 150-200 Wörter umfassen und für SEO-Zwecke optimiert sein, mit relevanten Schlüsselwörtern.'
+    'fileExtension' => ['jpg', 'jpeg', 'png', 'gif'],
+    'IDoThisForYou' => 'I give you an description Text for this Image. Maximal 200 letters.',
 ];
 ```
 
-#### SEO-optimierte Metabeschreibung
+#### SEO-Optimierungen für Seitenelemente
 ```php
+// Meta-Beschreibung für Suchmaschinen
 $GLOBALS['TCA']['pages']['columns']['description']['config']['fieldWizard']['aiText'] = [
-    'renderType' => 'aiTextWizard',
-    'aiToRead' => 'title,subtitle,nav_title,content',
-    'iDoThisForYou' => 'Ich erstelle eine SEO-optimierte Metabeschreibung für diese Seite. Die Beschreibung ist zwischen 140-160 Zeichen lang, enthält das wichtigste Keyword aus dem Seitentitel und endet mit einem klaren Call-to-Action. Die Beschreibung ist ansprechend formuliert und regt zum Klicken an.'
+    'renderType' => 'aiPageTextWizard',
+    'IDoThisForYou' => 'Please provide a description for this page. I'll send you an HTML document. Use only the body. This description should be for search engines, like Google. The description should be between 120-160 characters. Don't use this character: ":"'
+];
+
+// SEO-Titel
+$GLOBALS['TCA']['pages']['columns']['seo_title']['config']['fieldWizard']['aiText'] = [
+    'renderType' => 'aiPageTextWizard',
+    'IDoThisForYou' => 'Please give me a title for this page. I'll send you an HTML document. Only use the body. This title should be optimized for search engines, like Google. The title should be a maximum of 60 characters. Don't use this character: ":"'
+];
+
+// Open Graph Beschreibung (Facebook)
+$GLOBALS['TCA']['pages']['columns']['og_description']['config']['fieldWizard']['aiText'] = [
+    'renderType' => 'aiPageTextWizard',
+    'IDoThisForYou' => 'Please provide a description for this page. I'll send you an HTML document. Use only the body. This description should be for social media: Facebook. The description should be between 120-160 characters. Don't use this character: ":"'
+];
+
+// Open Graph Titel (Facebook)
+$GLOBALS['TCA']['pages']['columns']['og_title']['config']['fieldWizard']['aiText'] = [
+    'renderType' => 'aiPageTextWizard',
+    'IDoThisForYou' => 'Please give me a title for this page. I'll send you an HTML document. Only use the body. This title should be optimized for social media: Facebook. The title should be a maximum of 60 characters. Don't use this character: ":"'
+];
+
+// Twitter Card Beschreibung
+$GLOBALS['TCA']['pages']['columns']['twitter_description']['config']['fieldWizard']['aiText'] = [
+    'renderType' => 'aiPageTextWizard',
+    'IDoThisForYou' => 'Please provide a description for this page. I'll send you an HTML document. Use only the body. This description should be for social media: Twitter Cards(X). The description should be between 120-160 characters. Don't use this character: ":"'
+];
+
+// Twitter Card Titel
+$GLOBALS['TCA']['pages']['columns']['twitter_title']['config']['fieldWizard']['aiText'] = [
+    'renderType' => 'aiPageTextWizard',
+    'IDoThisForYou' => 'Please give me a title for this page. I'll send you an HTML document. Only use the body. This title should be optimized for social media: Twitter Cards(X). The title should be a maximum of 60 characters. Don't use this character: ":"'
+];
+
+// Keywords für Suchmaschinen
+$GLOBALS['TCA']['pages']['columns']['keywords']['config']['fieldWizard']['aiText'] = [
+    'renderType' => 'aiPageTextWizard',
+    'IDoThisForYou' => 'Please give me keywords for this page. I'll send you an HTML document. Use only the body. These titles should be for search engines, like Google. About five. Please comma-separated.'
 ];
 ```
 
-#### Automatische Inhaltszusammenfassung
+#### News-Extension Integration
 ```php
-$GLOBALS['TCA']['tx_news_domain_model_news']['columns']['teaser']['config']['fieldWizard']['aiText'] = [
-    'renderType' => 'aiTextWizard',
-    'aiToRead' => 'bodytext',
-    'iDoThisForYou' => 'Ich fasse den Hauptinhalt in einem ansprechenden Teaser zusammen. Der Teaser ist maximal 250 Zeichen lang, weckt Neugier und enthält die wichtigsten Informationen aus dem Text. Ich verwende aktive Verben und eine direkte Ansprache.'
-];
-```
 
-#### Keyword-Generierung für SEO
-```php
+// Keyword-Generierung aus News-Inhalten
 $GLOBALS['TCA']['tx_news_domain_model_news']['columns']['keywords']['config']['fieldWizard']['aiText'] = [
     'renderType' => 'aiTextWizard',
     'aiToRead' => 'title,bodytext',
-    'iDoThisForYou' => 'Ich generiere 5-7 relevante Keywords für diesen Inhalt. Die Keywords sind durch Kommas getrennt, bestehen aus 1-3 Wörtern und spiegeln die Hauptthemen des Textes wider. Ich achte auf Suchvolumen und Relevanz, bevorzuge spezifische Begriffe anstelle allgemeiner Terme.'
+    'iDoThisForYou' => 'I give you 5 keywords from this News title and bodytext. Is separated by comma.'
 ];
 ```
 
-#### Übersetzung mit Beibehaltung von Fachbegriffen
-```php
-$GLOBALS['TCA']['tx_news_domain_model_news']['columns']['bodytext']['config']['fieldWizard']['aiTextTranslation'] = [
-    'renderType' => 'aiTextTranslationRteWizard',
-    'iDoThisForYou' => 'Ich übersetze diesen Text präzise und sinngemäß. Fachbegriffe und Eigennamen übernehme ich unverändert. Die HTML-Struktur mit allen Tags (<p>, <h2>, etc.) bleibt erhalten. Ich passe die Übersetzung an kulturelle Besonderheiten der Zielsprache an, behalte aber den Stil und Ton des Originals bei.'
-];
-```
+## Verfügbare Wizard-Typen
+
+- `aiTextWizard`: Für normale Textfelder
+- `aiTextRteWizard`: Für RTE-Felder (CKEditor)
+- `aiImageMetadataWizard`: Für Bildmetadaten
+- `aiPageTextWizard`: Für seitenbasierte Textgenerierung
+- `aiGenerateRteWizard`: Für komplexe RTE-Inhalte mit PDF-Quellen
+
+## Anpassung der Prompts
+
+Die Anweisungen für die KI können über die `iDoThisForYou`-Parameter in der TCA-Konfiguration angepasst werden. Hier können Sie detaillierte Anweisungen für die Generierung oder Übersetzung von Inhalten festlegen.
+
+## Sicherheitshinweise
+
+- Achten Sie darauf, dass Ihr OpenAI API-Schlüssel sicher gespeichert und nicht öffentlich zugänglich ist.
+- Prüfen Sie die generierten Inhalte vor der Veröffentlichung auf Korrektheit und Angemessenheit.
+- Beachten Sie die Datenschutzbestimmungen und informieren Sie Ihre Nutzer über den Einsatz von KI-Technologien.
 
 ## Support
 
@@ -154,6 +197,3 @@ Bei Fragen oder Problemen wenden Sie sich bitte an:
 i-gelb GmbH
 [Website](https://www.i-gelb.de)
 
-## Lizenz
-
-Diese Extension wird unter der GPL-2.0-or-later Lizenz veröffentlicht.
