@@ -2,7 +2,7 @@
 	"name": "igelb/ig-aiforms",
 	"type": "typo3-cms-extension",
 	"description": "TYPO3 Extension for AI",
-	"version": "12.0.0",
+	"version": "12.0.3",
 	"license": "GPL-2.0-or-later",
 	"authors": [
 		{
